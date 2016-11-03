@@ -58,8 +58,8 @@ function do_login($login_id, $login_password, $config, $mysqli, $rm) {
       setcookie('login_id', $login_id, time() + (86400 * 30), "/");
     }
 		$timestamp = time();
-		$stmt = $mysqli->prepare("UPDATE users SET last_online = ? WHERE id = ?");
-		$stmt->bind_param("ss", $timestamp, $id);
+		$stmt = $mysqli->prepare("UPDATE users SET last_online = ?, ip_last = ? WHERE id = ?");
+		$stmt->bind_param("ssi", $timestamp, $_SERVER['REMOTE_ADDR'], $id);
     $stmt->execute();
 		$stmt->close();
     session_regenerate();
